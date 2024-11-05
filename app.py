@@ -16,14 +16,14 @@ with ui.layout_columns():
         " Penguin Data Table "
         @render.data_frame
         def penguinstable_df():
-            return render.DataTable(penguins_df, filters=False,selection_mode='row')
+            return render.DataTable(filtered_data(), filters=False,selection_mode='row')
         
 
     with ui.card():
         "Penguins Data Grid"
         @render.data_frame
         def penguinsgrid_df():
-            return render.DataGrid(penguins_df, filters=False, selection_mode="row")
+            return render.DataGrid(filtered_data(), filters=False, selection_mode="row")
 
 
 with ui.sidebar(open="open"):
@@ -82,7 +82,7 @@ with ui.layout_columns():
         bin_count = input.plotly_bin_count()
         
         fig = px.histogram(
-            penguins_df,
+            filtered_data(),
             x=selected_attribute,
             nbins=bin_count,
             title=f"Penguins {selected_attribute} Histogram",
@@ -96,7 +96,7 @@ with ui.card(full_screen=True):
     ui.card_header("Plotly Scatterplot: Species")
     @render_plotly
     def plotly_scatterplot():
-        filtered_penguins = penguins_df[
+        filtered_penguins = filtered_data()[
                 penguins_df["species"].isin(input.selected_species_list())
             ]
         fig = px.scatter(
@@ -114,8 +114,8 @@ with ui.card(full_screen=True):
     
     @render_plotly
     def density_plot():
-        filtered_penguins = penguins_df[
-            penguins_df["species"].isin(input.selected_species_list())
+        filtered_penguins = filtered_data()[
+            filtered_datat()["species"].isin(input.selected_species_list())
         ]
         fig = px.density_contour(
             filtered_penguins,
